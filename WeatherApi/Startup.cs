@@ -46,7 +46,7 @@ namespace WeatherApi
             });
             services.AddSingleton<IWeatherService>(s =>
             {
-                return new WeatherService(Configuration["ApiKeys:DarkSkyApiKey"]);
+                return new DarkSkyWeatherService(Configuration["ApiKeys:DarkSkyApiKey"]);
             });
         }
 

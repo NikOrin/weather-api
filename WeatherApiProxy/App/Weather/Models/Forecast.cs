@@ -10,5 +10,6 @@ namespace WeatherApiProxy.App.Weather.Models
         public DataPoint Current;
         public IEnumerable<DataPoint> Hourly;
         public IEnumerable<DataPoint> Daily;
+        public IEnumerable<Alert> Alerts;
     }
 }

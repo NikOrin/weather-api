@@ -9,16 +9,17 @@ using WeatherApiProxy.App.Weather.Contracts;
 using WeatherApiProxy.App.Weather.Models;
 using DarkSkyForecast = DarkSky.Models.Forecast;
 using DarkSkyDataPoint = DarkSky.Models.DataPoint;
+using DarkSkyAlert = DarkSky.Models.Alert;
 
 namespace WeatherApi.App.Weather
 {
-    public class WeatherService : IWeatherService
+    public class DarkSkyWeatherService : IWeatherService
     {
         public ILocationService LocationService { get; set; }
         private string _weatherServiceUri;
         private string _weatherServiceApiKey;
 
-        public WeatherService(string weatherServiceApiKey)
+        public DarkSkyWeatherService(string weatherServiceApiKey)
         {
             _weatherServiceApiKey = weatherServiceApiKey;
         }
@@ -32,8 +33,6 @@ namespace WeatherApi.App.Weather
 
             if (!darkSkyResponse.IsSuccessStatus) return null;
 
-
-
             return BuildForecast(darkSkyResponse.Response);
         }
 
@@ -44,6 +43,9 @@ namespace WeatherApi.App.Weather
 
             forecast.Hourly = dsForecast.Hourly.Data.Select(x => BuildDataPoint(x));
             forecast.Daily = dsForecast.Daily.Data.Select(x => BuildDataPoint(x));
+
+            if (dsForecast.Alerts != null)
+                forecast.Alerts = dsForecast.Alerts.Select(x => BuildAlert(x));
 
             return forecast;
         }
@@ -57,6 +59,20 @@ namespace WeatherApi.App.Weather
                 Temperature = dsDataPoint.Temperature,
                 TemperatureHigh = dsDataPoint.TemperatureHigh,
                 TemperatureLow = dsDataPoint.TemperatureLow
+            };
+        }
+
+        private Alert BuildAlert(DarkSkyAlert dsAlert)
+        {
+            return new Alert
+            {
+                Time = dsAlert.DateTime,
+                Description = dsAlert.Description,
+                ExpirationDate = dsAlert.ExpiresDateTime,
+                Regions = dsAlert.Regions,
+                Severity = dsAlert.Severity,
+                Title = dsAlert.Title,
+                Uri = dsAlert.Uri
             };
         }
     }

@@ -26,8 +26,7 @@ namespace WeatherApi.Controllers
 
             var response = new WeatherResponseContract();
 
-            response.IsSuccess = forecast == null;
-
+            response.IsSuccess = forecast != null;
             response.Data = forecast;
 
             return response;
