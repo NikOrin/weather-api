@@ -9,5 +9,7 @@ namespace WeatherApiProxy.App.Weather.Models
         public double? Temperature;
         public double? TemperatureLow;
         public double? TemperatureHigh;
+        public double? TemperatureFeelsLike;
+        public double? PrecipitationProbability;
     }
 }

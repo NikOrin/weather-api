@@ -58,7 +58,9 @@ namespace WeatherApi.App.Weather
                 Summary = dsDataPoint.Summary,
                 Temperature = dsDataPoint.Temperature,
                 TemperatureHigh = dsDataPoint.TemperatureHigh,
-                TemperatureLow = dsDataPoint.TemperatureLow
+                TemperatureLow = dsDataPoint.TemperatureLow,
+                TemperatureFeelsLike = dsDataPoint.ApparentTemperature,
+                PrecipitationProbability = dsDataPoint.PrecipProbability
             };
         }
 
