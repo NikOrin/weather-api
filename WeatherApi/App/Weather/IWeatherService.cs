@@ -7,6 +7,6 @@ namespace WeatherApi.App.Weather
     public interface IWeatherService
     {
         ILocationService LocationService { get; set; }
-        Task<Forecast> GetForecast(string address);
+        Task<(Forecast, string)> GetForecast(string address);
     }
 }

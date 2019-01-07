@@ -22,12 +22,13 @@ namespace WeatherApi.Controllers
         [HttpGet("{address}")]
         public async Task<ActionResult<WeatherResponseContract>> Get(string address)
         {
-            var forecast = await _weatherService.GetForecast(address);
+            (var forecast, string errorMessage) = await _weatherService.GetForecast(address);
 
             var response = new WeatherResponseContract();
 
             response.IsSuccess = forecast != null;
             response.Data = forecast;
+            response.ErrorMessage = errorMessage;
 
             return response;
         }

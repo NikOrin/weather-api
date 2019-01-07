@@ -24,16 +24,18 @@ namespace WeatherApi.App.Weather
             _weatherServiceApiKey = weatherServiceApiKey;
         }
 
-        public async Task<Forecast> GetForecast(string address)
+        public async Task<(Forecast, string)> GetForecast(string address)
         {
             var point = LocationService.GetLatLongFromAddress(address);
             
+            if (point == null) return (null, "Could not find given address");
+
             var service = new DarkSkyService(_weatherServiceApiKey);
             var darkSkyResponse = await service.GetForecast(point.Latitude, point.Longitude);
 
-            if (!darkSkyResponse.IsSuccessStatus) return null;
+            if (!darkSkyResponse.IsSuccessStatus) return (null, "Weather service did not return a success response");
 
-            return BuildForecast(darkSkyResponse.Response);
+            return (BuildForecast(darkSkyResponse.Response), null);
         }
 
         private Forecast BuildForecast(DarkSkyForecast dsForecast)
