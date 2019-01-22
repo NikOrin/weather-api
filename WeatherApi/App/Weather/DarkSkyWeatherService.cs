@@ -1,5 +1,4 @@
 ﻿using DarkSky.Services;
-using GoogleMaps.LocationServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +9,12 @@ using WeatherApiProxy.App.Weather.Models;
 using DarkSkyForecast = DarkSky.Models.Forecast;
 using DarkSkyDataPoint = DarkSky.Models.DataPoint;
 using DarkSkyAlert = DarkSky.Models.Alert;
+using WeatherApi.App.Location;
 
 namespace WeatherApi.App.Weather
 {
     public class DarkSkyWeatherService : IWeatherService
     {
-        public ILocationService LocationService { get; set; }
         private string _weatherServiceUri;
         private string _weatherServiceApiKey;
 
@@ -24,14 +23,10 @@ namespace WeatherApi.App.Weather
             _weatherServiceApiKey = weatherServiceApiKey;
         }
 
-        public async Task<(Forecast, string)> GetForecast(string address)
+        public async Task<(Forecast, string)> GetForecast(double longitude, double latitude)
         {
-            var point = LocationService.GetLatLongFromAddress(address);
-            
-            if (point == null) return (null, "Could not find given address");
-
             var service = new DarkSkyService(_weatherServiceApiKey);
-            var darkSkyResponse = await service.GetForecast(point.Latitude, point.Longitude);
+            var darkSkyResponse = await service.GetForecast(latitude, longitude);
 
             if (!darkSkyResponse.IsSuccessStatus) return (null, "Weather service did not return a success response");
 

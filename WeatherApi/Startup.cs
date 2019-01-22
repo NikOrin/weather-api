@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GoogleMaps.LocationServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using WeatherApi.App.Location;
 using WeatherApi.App.Weather;
 
 namespace WeatherApi
@@ -42,7 +42,7 @@ namespace WeatherApi
             //services.AddScoped<ILocationService, GoogleLocationService>();
             services.AddSingleton<ILocationService>(s =>
             {
-                return new GoogleLocationService(Configuration["ApiKeys:GeolocationApiKey"]);
+                return new GoogleGeocodeLocationService(Configuration["ApiKeys:GeolocationApiKey"]);
             });
             services.AddSingleton<IWeatherService>(s =>
             {

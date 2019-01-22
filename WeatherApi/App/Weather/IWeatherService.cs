@@ -1,12 +1,10 @@
-﻿using GoogleMaps.LocationServices;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using WeatherApiProxy.App.Weather.Models;
 
 namespace WeatherApi.App.Weather
 {
     public interface IWeatherService
     {
-        ILocationService LocationService { get; set; }
-        Task<(Forecast, string)> GetForecast(string address);
+        Task<(Forecast, string)> GetForecast(double longitude, double latitude);
     }
 }
