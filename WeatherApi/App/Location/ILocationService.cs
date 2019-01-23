@@ -8,6 +8,6 @@ namespace WeatherApi.App.Location
 {
     public interface ILocationService
     {
-        Task<(Address, string)> GetAddress(string address);
+        Task<Address> GetAddress(string address);
     }
 }

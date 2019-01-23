@@ -23,14 +23,14 @@ namespace WeatherApi.App.Weather
             _weatherServiceApiKey = weatherServiceApiKey;
         }
 
-        public async Task<(Forecast, string)> GetForecast(double longitude, double latitude)
+        public async Task<Forecast> GetForecast(double longitude, double latitude)
         {
             var service = new DarkSkyService(_weatherServiceApiKey);
             var darkSkyResponse = await service.GetForecast(latitude, longitude);
 
-            if (!darkSkyResponse.IsSuccessStatus) return (null, "Weather service did not return a success response");
+            if (!darkSkyResponse.IsSuccessStatus) return null;
 
-            return (BuildForecast(darkSkyResponse.Response), null);
+            return BuildForecast(darkSkyResponse.Response);
         }
 
         private Forecast BuildForecast(DarkSkyForecast dsForecast)

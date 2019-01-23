@@ -18,7 +18,7 @@ namespace WeatherApi.App.Location
             _apiKey = apiKey;
         }
 
-        public async Task<(Address, string)> GetAddress(string address)
+        public async Task<Address> GetAddress(string address)
         {
             var client = new HttpClient();
 
@@ -27,16 +27,16 @@ namespace WeatherApi.App.Location
 
             var googleReponse = await response.Content.ReadAsAsync<GoogleGeocodeResponse>();
 
-            if (googleReponse.Status != "OK") return (null, "Unable to find address. Please make sure this is a valid address");
+            if (googleReponse.Status != "OK") return null;
 
             var location = googleReponse.Results.FirstOrDefault();
 
-            return (new Address
+            return new Address
             {
                 Latitude = location.Geometry.Location.Lat,
                 Longitude = location.Geometry.Location.Lng,
                 FormattedAddress = location.Formatted_Address
-            }, null);
+            };
         }
     }
 }
